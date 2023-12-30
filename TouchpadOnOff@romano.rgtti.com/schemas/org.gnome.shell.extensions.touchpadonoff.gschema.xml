@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+<schema id="org.gnome.shell.extensions.touchpadonoff" path="/org/gnome/shell/extensions/touchpadonoff/">
+        <key name="show-notifications" type="b">
+                <default>true</default>
+                <summary>Show a notification when toggling</summary>
+                <description>Normally we show a notification each time
+                        the user changes the touchpad status. It is a bit slow,
+                        so maybe you prefer not to enable it.
+                </description>
+        </key>
+        <key name="enable-on-login" type="b">
+                <default>true</default>
+                <summary>Enable the touchpad at login</summary>
+                <description>If you set this to on, the touchpad will be enabled
+                        at each login. Otherwise, the last status is remembered.
+                        Switching this to false can be dangerous if your only
+                        pointing device is the touchpad!
+                </description>
+        </key>
+</schema>
+</schemalist>

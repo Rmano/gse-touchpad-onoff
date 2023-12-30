@@ -1,0 +1,12 @@
+{
+  "description": "Toggle touchpad on or off",
+  "name": "Touchpad On Off",
+  "original-authors": "Romano Giannetti <romano.giannetti@gmail.com>",
+  "shell-version": [
+    "45"
+  ],
+  "url": "https://github.com/Rmano/gse-touchpad-onoff",
+  "uuid": "TouchpadOnOff@romano.rgtti.com",
+  "settings-schema": "org.gnome.shell.extensions.touchpadonoff",
+  "version": 1
+}
