@@ -18,5 +18,13 @@
                         pointing device is the touchpad!
                 </description>
         </key>
+        <key name="use-color-icons" type="b">
+                <default>false</default>
+                <summary>Use colored icons</summary>
+                <description>If you set this to on, the icons used by the
+                        extension will have color accents. By default, the
+                        icons used blend better with GNOME panel style.
+                </description>
+        </key>
 </schema>
 </schemalist>

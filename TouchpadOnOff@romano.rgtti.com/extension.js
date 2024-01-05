@@ -8,7 +8,7 @@ import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 
 import {Extension} from 'resource:///org/gnome/shell/extensions/extension.js';
 
-let button, icon_on, icon_off, wm_prefs, my_prefs;
+let button, icon_on, icon_off, icon_color_on, icon_color_off, wm_prefs, my_prefs, path;
 
 function _switch() {
     let what=wm_prefs.get_string('send-events');
@@ -32,10 +32,19 @@ function _switch() {
 
 function _sync() {
     let what=wm_prefs.get_string('send-events');
-    if (what == 'enabled') {
-        button.set_child(icon_on);
+    let pColored=my_prefs.get_boolean('use-color-icons');
+    if (pColored) {
+        if (what == 'enabled') {
+            button.set_child(icon_color_on);
+        } else {
+            button.set_child(icon_color_off);
+        }
     } else {
-        button.set_child(icon_off);
+        if (what == 'enabled') {
+            button.set_child(icon_on);
+        } else {
+            button.set_child(icon_off);
+        }
     }
 }
 
@@ -50,12 +59,15 @@ export default class TouchpadOnOff extends Extension {
             reactive: true,
             can_focus: true,
             track_hover: true });
-        let dir;
-        dir = this._metadata.path;
+        path = this._metadata.path;
         icon_on = new St.Icon({ style_class: 'system-status-icon'});
-        icon_on.gicon = Gio.icon_new_for_string(dir + '/icons/touchpadon.svg');
+        icon_on.gicon = Gio.icon_new_for_string(path + '/icons/touchpadon.svg');
         icon_off = new St.Icon({ style_class: 'system-status-icon'});
-        icon_off.gicon = Gio.icon_new_for_string(dir + '/icons/touchpadoff.svg');
+        icon_off.gicon = Gio.icon_new_for_string(path + '/icons/touchpadoff.svg');
+        icon_color_on = new St.Icon({ style_class: 'system-status-icon'});
+        icon_color_on.gicon = Gio.icon_new_for_string(path + '/icons/touchpadon-color.svg');
+        icon_color_off = new St.Icon({ style_class: 'system-status-icon'});
+        icon_color_off.gicon = Gio.icon_new_for_string(path + '/icons/touchpadoff-color.svg');
         wm_prefs=new Gio.Settings({schema: 'org.gnome.desktop.peripherals.touchpad'});
         // get settings
         my_prefs= this.getSettings();
@@ -68,15 +80,17 @@ export default class TouchpadOnOff extends Extension {
                 this._first_time = false;
             }
         }
-        this._connectionId = button.connect('button-press-event', _switch);
-        this._setconnectionId = wm_prefs.connect('changed::send-events', (s, k) => { _sync() });
+        this._buttonId = button.connect('button-press-event', _switch);
+        this._sendId = wm_prefs.connect('changed::send-events', (s, k) => { _sync() });
+        this._iconId = my_prefs.connect('changed::use-color-icons', (s, k) => { _sync() });
         // start with the current status --- sync icon
         _sync();
         Main.panel._rightBox.insert_child_at_index(button, 0);
     }
     disable() {
-        button.disconnect(this._connectionId);
-        wm_prefs.disconnect(this._setconnectionId);
+        button.disconnect(this._buttonId);
+        wm_prefs.disconnect(this._sendId);
+        wm_prefs.disconnect(this._iconId);
         Main.panel._rightBox.remove_child(button);
         button?.destroy();
         button = null;
@@ -84,6 +98,9 @@ export default class TouchpadOnOff extends Extension {
         my_prefs = null;
         icon_on = null;
         icon_off = null;
+        icon_color_on = null;
+        icon_color_off = null;
+        path = null;
     }
 }
 

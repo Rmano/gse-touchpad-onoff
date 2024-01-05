@@ -33,12 +33,19 @@ export default class SwitchFocusTypePreferences extends ExtensionPreferences {
             subtitle: 'Avoid getting stuck with no pointing device',
         });
         group.add(rowActivate);
-            //
-        // Create a settings object and bind the row to the `show-indicator` key
+
+        const rowIcons = new Adw.SwitchRow({
+            title: 'Use color icons',
+            subtitle: 'Use color icons for OFF/ON',
+        });
+        group.add(rowIcons);
+        //
         window._settings = this.getSettings();
         window._settings.bind('show-notifications', rowNotification, 'active',
             Gio.SettingsBindFlags.DEFAULT);
         window._settings.bind('enable-on-login', rowActivate, 'active',
+            Gio.SettingsBindFlags.DEFAULT);
+        window._settings.bind('use-color-icons', rowIcons, 'active',
             Gio.SettingsBindFlags.DEFAULT);
     }
 }
