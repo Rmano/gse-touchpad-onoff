@@ -21,6 +21,7 @@ Each click toggle the status.
 * You can choose to have a notification for each change of status or not.
 (default yes)
 * You can choose if the touchpad starts enabled after login (default yes) or if it remembers the last value.
+* You can opt for more colorful icons if you do not like the standard ones (contributed by @corebots).
 
 ![screenshot](screenshot.png)
 
