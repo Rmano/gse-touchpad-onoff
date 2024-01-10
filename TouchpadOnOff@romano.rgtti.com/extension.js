@@ -81,6 +81,7 @@ export default class TouchpadOnOff extends Extension {
             }
         }
         this._buttonId = button.connect('button-press-event', _switch);
+        this._buttonId = button.connect('touch-event', _switch);
         this._sendId = wm_prefs.connect('changed::send-events', (s, k) => { _sync() });
         this._iconId = my_prefs.connect('changed::use-color-icons', (s, k) => { _sync() });
         // start with the current status --- sync icon
