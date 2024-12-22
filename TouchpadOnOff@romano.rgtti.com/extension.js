@@ -10,7 +10,18 @@ import {Extension} from 'resource:///org/gnome/shell/extensions/extension.js';
 
 let button, icon_on, icon_off, icon_color_on, icon_color_off, wm_prefs, my_prefs, path;
 
-function _switch() {
+function _switch(obj, event) {
+    let type=event.type()
+    switch(type) {
+        case Clutter.EventType.TOUCH_BEGIN:
+        case Clutter.EventType.TOUCH_UPDATE:
+        case Clutter.EventType.TOUCH_CANCEL:
+            // Do not act on the event, just let it propagate
+            return Clutter.EVENT_PROPAGATE
+        case Clutter.EventType.TOUCH_END:
+        case Clutter.EventType.BUTTON_PRESS:
+            // These events are handled by the button, carry on
+    }
     let what=wm_prefs.get_string('send-events');
     let pNotify=my_prefs.get_boolean('show-notifications');
     if (what == 'enabled') {
@@ -28,6 +39,7 @@ function _switch() {
         // button.set_child(icon_on);
         wm_prefs.set_string('send-events', 'enabled');
     }
+    return Clutter.EVENT_STOP
 }
 
 function _sync() {
@@ -81,6 +93,7 @@ export default class TouchpadOnOff extends Extension {
             }
         }
         this._buttonId = button.connect('button-press-event', _switch);
+        this._touchId = button.connect('touch-event', _switch);
         this._sendId = wm_prefs.connect('changed::send-events', (s, k) => { _sync() });
         this._iconId = my_prefs.connect('changed::use-color-icons', (s, k) => { _sync() });
         // start with the current status --- sync icon
@@ -89,6 +102,7 @@ export default class TouchpadOnOff extends Extension {
     }
     disable() {
         button.disconnect(this._buttonId);
+        button.disconnect(this._touchId);
         wm_prefs.disconnect(this._sendId);
         wm_prefs.disconnect(this._iconId);
         Main.panel._rightBox.remove_child(button);
