@@ -3,10 +3,10 @@
   "name": "Touchpad On Off",
   "original-authors": "Romano Giannetti <romano.giannetti@gmail.com>",
   "shell-version": [
-    "45", "46", "47"
+    "45", "46", "47", "48"
   ],
   "url": "https://github.com/Rmano/gse-touchpad-onoff",
   "uuid": "TouchpadOnOff@romano.rgtti.com",
   "settings-schema": "org.gnome.shell.extensions.touchpadonoff",
-  "version": 5
+  "version": 6
 }
