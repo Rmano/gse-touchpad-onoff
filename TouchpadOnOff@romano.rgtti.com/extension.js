@@ -1,120 +1,100 @@
-// Touchpad On Off extension (c) 2024 Romano Giannetti <romano.giannetti@gmail.com>
+// Touchpad On Off extension (c) 2024-2026 Romano Giannetti <romano.giannetti@gmail.com>
 // License: GPLv2+, see http://www.gnu.org/licenses/gpl-2.0.txt
 //
 import Clutter from 'gi://Clutter';
-import St from 'gi://St';
 import Gio from 'gi://Gio';
-import * as Main from 'resource:///org/gnome/shell/ui/main.js';
+import St from 'gi://St';
 
+import * as Main from 'resource:///org/gnome/shell/ui/main.js';
+import * as PanelMenu from 'resource:///org/gnome/shell/ui/panelMenu.js';
 import {Extension} from 'resource:///org/gnome/shell/extensions/extension.js';
 
-let button, icon_on, icon_off, icon_color_on, icon_color_off, wm_prefs, my_prefs, path;
-
-function _switch(obj, event) {
-    let type=event.type()
-    switch(type) {
-        case Clutter.EventType.TOUCH_BEGIN:
-        case Clutter.EventType.TOUCH_UPDATE:
-        case Clutter.EventType.TOUCH_CANCEL:
-            // Do not act on the event, just let it propagate
-            return Clutter.EVENT_PROPAGATE
-        case Clutter.EventType.TOUCH_END:
-        case Clutter.EventType.BUTTON_PRESS:
-            // These events are handled by the button, carry on
-    }
-    let what=wm_prefs.get_string('send-events');
-    let pNotify=my_prefs.get_boolean('show-notifications');
-    if (what == 'enabled') {
-        if (pNotify) {
-            Main.notify("Touchpad On Off", "Switching touchpad off");
-        }
-        // not needed, set by the callback
-        // button.set_child(icon_off);
-        wm_prefs.set_string('send-events', 'disabled');
-    } else {
-        if (pNotify) {
-            Main.notify("Touchpad On Off", "Switchin touchpad on");
-        }
-        // not needed, set by the callback
-        // button.set_child(icon_on);
-        wm_prefs.set_string('send-events', 'enabled');
-    }
-    return Clutter.EVENT_STOP
-}
-
-function _sync() {
-    let what=wm_prefs.get_string('send-events');
-    let pColored=my_prefs.get_boolean('use-color-icons');
-    if (pColored) {
-        if (what == 'enabled') {
-            button.set_child(icon_color_on);
-        } else {
-            button.set_child(icon_color_off);
-        }
-    } else {
-        if (what == 'enabled') {
-            button.set_child(icon_on);
-        } else {
-            button.set_child(icon_off);
-        }
-    }
-}
+const MODE_ON = 'enabled';
+const MODE_OFF = 'disabled';
 
 export default class TouchpadOnOff extends Extension {
     constructor(metadata) {
         super(metadata);
-        this._metadata = metadata;
-        this._first_time = true;
+        this._firstTime = true;
     }
+
     enable() {
-        button = new St.Bin({ style_class: 'panel-button',
-            reactive: true,
-            can_focus: true,
-            track_hover: true });
-        path = this._metadata.path;
-        icon_on = new St.Icon({ style_class: 'system-status-icon'});
-        icon_on.gicon = Gio.icon_new_for_string(path + '/icons/touchpadon.svg');
-        icon_off = new St.Icon({ style_class: 'system-status-icon'});
-        icon_off.gicon = Gio.icon_new_for_string(path + '/icons/touchpadoff.svg');
-        icon_color_on = new St.Icon({ style_class: 'system-status-icon'});
-        icon_color_on.gicon = Gio.icon_new_for_string(path + '/icons/touchpadon-color.svg');
-        icon_color_off = new St.Icon({ style_class: 'system-status-icon'});
-        icon_color_off.gicon = Gio.icon_new_for_string(path + '/icons/touchpadoff-color.svg');
-        wm_prefs=new Gio.Settings({schema: 'org.gnome.desktop.peripherals.touchpad'});
-        // get settings
-        my_prefs= this.getSettings();
-        // let activate the touchpad on login. Useful if you get stuck
-        // without any pointing device!
-        if (this._first_time) {
-            let enable_on_login=my_prefs.get_boolean('enable-on-login');
-            if (enable_on_login) {
-                wm_prefs.set_string('send-events', 'enabled');
-                this._first_time = false;
-            }
+        this._touchpadSettings = new Gio.Settings({
+            schema: 'org.gnome.desktop.peripherals.touchpad',
+        });
+        this._settings = this.getSettings();
+
+        // let use just one icon, we will change the content in _syncIcon()
+        this._indicator = new PanelMenu.Button(0.0, this.metadata.name, true);
+        this._icon = new St.Icon({style_class: 'system-status-icon'});
+        this._indicator.add_child(this._icon);
+
+        // Instead of using raw events, just use one "controller"
+        // to handle both pointer clicks and touchscreen taps.
+        // https://gjs.guide/extensions/upgrading/gnome-shell-51.html#clutter-controllers
+        // The change was suggested in https://gjs.guide/extensions/upgrading/gnome-shell-51.html#clutter-controllers
+        this._clickGesture = new Clutter.ClickGesture();
+        this._clickGestureId = this._clickGesture.connect(
+            'recognize', () => this._toggle());
+        this._indicator.add_action(this._clickGesture);
+
+        this._sendEventsId = this._touchpadSettings.connect(
+            'changed::send-events', () => this._syncIcon());
+        this._colorIconsId = this._settings.connect(
+            'changed::use-color-icons', () => this._syncIcon());
+
+        // Preserve the old login behavior in this API-only patch.
+        if (this._firstTime &&
+            this._settings.get_boolean('enable-on-login')) {
+            this._touchpadSettings.set_string('send-events', MODE_ON);
+            this._firstTime = false;
         }
-        this._buttonId = button.connect('button-press-event', _switch);
-        this._touchId = button.connect('touch-event', _switch);
-        this._sendId = wm_prefs.connect('changed::send-events', (s, k) => { _sync() });
-        this._iconId = my_prefs.connect('changed::use-color-icons', (s, k) => { _sync() });
-        // start with the current status --- sync icon
-        _sync();
-        Main.panel._rightBox.insert_child_at_index(button, 0);
+
+        this._syncIcon();
+        Main.panel.addToStatusArea(this.uuid, this._indicator);
     }
+
     disable() {
-        button.disconnect(this._buttonId);
-        button.disconnect(this._touchId);
-        wm_prefs.disconnect(this._sendId);
-        wm_prefs.disconnect(this._iconId);
-        Main.panel._rightBox.remove_child(button);
-        button?.destroy();
-        button = null;
-        wm_prefs = null;
-        my_prefs = null;
-        icon_on = null;
-        icon_off = null;
-        icon_color_on = null;
-        icon_color_off = null;
-        path = null;
+        this._touchpadSettings.disconnect(this._sendEventsId);
+        this._settings.disconnect(this._colorIconsId);
+        this._clickGesture.disconnect(this._clickGestureId);
+        this._indicator.remove_action(this._clickGesture);
+        this._indicator.destroy();
+        this._indicator = null;
+        this._icon = null;
+        this._clickGesture = null;
+        this._touchpadSettings = null;
+        this._settings = null;
+    }
+
+    _toggle() {
+        const currentMode = this._touchpadSettings.get_string('send-events');
+        const targetMode = currentMode === MODE_ON ? MODE_OFF : MODE_ON;
+
+        if (this._settings.get_boolean('show-notifications')) {
+            const message = targetMode === MODE_ON
+                ? 'Switching touchpad on'
+                : 'Switching touchpad off';
+            Main.notify(this.metadata.name, message);
+        }
+
+        this._touchpadSettings.set_string('send-events', targetMode);
+    }
+
+    _syncIcon() {
+        // build the name of the icons for the "flat" and "color" options
+        // load the icon on sync
+        const mode = this._touchpadSettings.get_string('send-events');
+        const colorSuffix = this._settings.get_boolean('use-color-icons')
+            ? '-color'
+            : '';
+        const iconStem = mode === MODE_ON ? 'touchpadon' : 'touchpadoff';
+
+        // load the new icon. The old one will be deleted/GC automatically
+        this._icon.gicon = Gio.icon_new_for_string(
+            `${this.path}/icons/${iconStem}${colorSuffix}.svg`);
+        this._indicator.accessible_name = mode === MODE_ON
+            ? 'Touchpad: on'
+            : 'Touchpad: off';
     }
 }
-

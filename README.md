@@ -34,3 +34,9 @@ or the command prompt of gnome-shell (with Alt-F2) and issue
 
 ...and you'll have your touchpad back.
 
+### Notice for versions from 10 upward (GnomeShell 51 and up)
+
+The versions from 10 upward are **only** for Gnome-Shell 51 or higher.
+
+* There have been a complete rewrite to follow the [deprecations of interfaces](https://gjs.guide/extensions/upgrading/gnome-shell-51.html#clutter-controllers) that happened there and to use the [new button and connectors interfaces](https://gjs.guide/extensions/upgrading/gnome-shell-51.html#clutter-controllers).
+
