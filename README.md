@@ -30,7 +30,7 @@ Each click toggle the status.
 If you are stuck without mouse or touchpad, open a terminal window
 or the command prompt of gnome-shell (with Alt-F2) and issue
 
-    dconf write /org/gnome/desktop/peripherals/touchpad/send-events true
+    gsettings set org.gnome.desktop.peripherals.touchpad send-events enabled
 
 ...and you'll have your touchpad back.
 
@@ -40,3 +40,4 @@ The versions from 10 upward are **only** for Gnome-Shell 51 or higher.
 
 * There have been a complete rewrite to follow the [deprecations of interfaces](https://gjs.guide/extensions/upgrading/gnome-shell-51.html#clutter-controllers) that happened there and to use the [new button and connectors interfaces](https://gjs.guide/extensions/upgrading/gnome-shell-51.html#clutter-controllers).
 
+* Added support for GNOME's [automatic touchpad disabling when an external mouse is connected](https://release.gnome.org/51/#settings-improvements). In automatic mode, the extension displays a dedicated icon and becomes non-interactive, leaving touchpad control to GNOME.

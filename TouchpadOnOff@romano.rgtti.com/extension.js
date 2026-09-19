@@ -11,6 +11,7 @@ import {Extension} from 'resource:///org/gnome/shell/extensions/extension.js';
 
 const MODE_ON = 'enabled';
 const MODE_OFF = 'disabled';
+const MODE_AUTO = 'disabled-on-external-mouse';
 
 export default class TouchpadOnOff extends Extension {
     constructor(metadata) {
@@ -43,10 +44,15 @@ export default class TouchpadOnOff extends Extension {
         this._colorIconsId = this._settings.connect(
             'changed::use-color-icons', () => this._syncIcon());
 
-        // Preserve the old login behavior in this API-only patch.
-        if (this._firstTime &&
-            this._settings.get_boolean('enable-on-login')) {
-            this._touchpadSettings.set_string('send-events', MODE_ON);
+        const mode = this._touchpadSettings.get_string('send-events');
+
+        // Recover only from a hard Off. GNOME's automatic mode remains owned
+        // by Settings and must not be overwritten when the extension starts.
+        if (this._firstTime) {
+            if (mode === MODE_OFF &&
+                this._settings.get_boolean('enable-on-login'))
+                this._touchpadSettings.set_string('send-events', MODE_ON);
+
             this._firstTime = false;
         }
 
@@ -69,6 +75,12 @@ export default class TouchpadOnOff extends Extension {
 
     _toggle() {
         const currentMode = this._touchpadSettings.get_string('send-events');
+
+        // The actor is normally non-reactive in automatic mode. Keep this
+        // guard so that no delayed or synthetic activation can override it.
+        if (currentMode === MODE_AUTO)
+            return;
+
         const targetMode = currentMode === MODE_ON ? MODE_OFF : MODE_ON;
 
         if (this._settings.get_boolean('show-notifications')) {
@@ -88,13 +100,26 @@ export default class TouchpadOnOff extends Extension {
         const colorSuffix = this._settings.get_boolean('use-color-icons')
             ? '-color'
             : '';
-        const iconStem = mode === MODE_ON ? 'touchpadon' : 'touchpadoff';
+        const iconStem = {
+            [MODE_ON]: 'touchpadon',
+            [MODE_OFF]: 'touchpadoff',
+            [MODE_AUTO]: 'touchpadauto',
+        }[mode] ?? 'touchpadoff';
+        const label = {
+            [MODE_ON]: 'on',
+            [MODE_OFF]: 'off',
+            [MODE_AUTO]: 'automatic',
+        }[mode] ?? 'unknown';
 
         // load the new icon. The old one will be deleted/GC automatically
         this._icon.gicon = Gio.icon_new_for_string(
             `${this.path}/icons/${iconStem}${colorSuffix}.svg`);
-        this._indicator.accessible_name = mode === MODE_ON
-            ? 'Touchpad: on'
-            : 'Touchpad: off';
+
+        this._indicator.accessible_name = `Touchpad: ${label}`;
+
+        const automatic = mode === MODE_AUTO;
+        this._indicator.reactive = !automatic;
+        this._indicator.can_focus = !automatic;
+        this._indicator.opacity = automatic ? 160 : 255;
     }
 }
