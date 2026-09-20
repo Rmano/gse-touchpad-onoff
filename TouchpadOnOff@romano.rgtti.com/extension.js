@@ -34,11 +34,22 @@ export default class TouchpadOnOff extends Extension {
         // to handle both pointer clicks and touchscreen taps.
         // https://gjs.guide/extensions/upgrading/gnome-shell-51.html#clutter-controllers
         // The change was suggested in https://gjs.guide/extensions/upgrading/gnome-shell-51.html#clutter-controllers
-        this._clickGesture = new Clutter.ClickGesture();
+        this._clickGesture = new Clutter.ClickGesture({
+            required_button: Clutter.BUTTON_PRIMARY,
+        });
+        // Restrict the active click to the primary button
         this._clickGestureId = this._clickGesture.connect(
             'recognize', () => this._toggle());
         this._indicator.add_action(this._clickGesture);
-
+        // Add a secondary press to open the preferences interface
+        this._prefsGesture = new Clutter.ClickGesture({
+            required_button: Clutter.BUTTON_SECONDARY,
+            recognize_on_press: true,
+        });
+        this._prefsGestureId = this._prefsGesture.connect(
+            'recognize', () => this.openPreferences());
+        this._indicator.add_action(this._prefsGesture);
+        // Connect events
         this._sendEventsId = this._touchpadSettings.connect(
             'changed::send-events', () => this._syncIcon());
         this._colorIconsId = this._settings.connect(
@@ -52,7 +63,6 @@ export default class TouchpadOnOff extends Extension {
             if (mode === MODE_OFF &&
                 this._settings.get_boolean('enable-on-login'))
                 this._touchpadSettings.set_string('send-events', MODE_ON);
-
             this._firstTime = false;
         }
 
@@ -65,10 +75,15 @@ export default class TouchpadOnOff extends Extension {
         this._settings.disconnect(this._colorIconsId);
         this._clickGesture.disconnect(this._clickGestureId);
         this._indicator.remove_action(this._clickGesture);
+        this._prefsGesture.disconnect(this._prefsGestureId);
+        this._indicator.remove_action(this._prefsGesture);
         this._indicator.destroy();
         this._indicator = null;
         this._icon = null;
         this._clickGesture = null;
+        this._clickGestureId = null;
+        this._prefsGesture = null;
+        this._prefsGestureId = null;
         this._touchpadSettings = null;
         this._settings = null;
     }
@@ -76,11 +91,13 @@ export default class TouchpadOnOff extends Extension {
     _toggle() {
         const currentMode = this._touchpadSettings.get_string('send-events');
 
-        // The actor is normally non-reactive in automatic mode. Keep this
-        // guard so that no delayed or synthetic activation can override it.
-        if (currentMode === MODE_AUTO)
+        // Automatic mode is controlled by GNOME.
+        // Explain why the requested toggle is not performed.
+        if (currentMode === MODE_AUTO) {
+            Main.notify(this.metadata.name,
+                'Automatic mode is active; GNOME controls the touchpad. Check Mouse & Touchpad settings.');
             return;
-
+        }
         const targetMode = currentMode === MODE_ON ? MODE_OFF : MODE_ON;
 
         if (this._settings.get_boolean('show-notifications')) {
@@ -118,8 +135,6 @@ export default class TouchpadOnOff extends Extension {
         this._indicator.accessible_name = `Touchpad: ${label}`;
 
         const automatic = mode === MODE_AUTO;
-        this._indicator.reactive = !automatic;
-        this._indicator.can_focus = !automatic;
         this._indicator.opacity = automatic ? 160 : 255;
     }
 }
