@@ -29,8 +29,8 @@ export default class SwitchFocusTypePreferences extends ExtensionPreferences {
         group.add(rowNotification);
 
         const rowActivate = new Adw.SwitchRow({
-            title: 'Enable the touchpad at login',
-            subtitle: 'Avoid getting stuck with no pointing device',
+            title: 'Recover from Off at login',
+            subtitle: 'Enable a hard-disabled touchpad after login',
         });
         group.add(rowActivate);
 

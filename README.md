@@ -14,7 +14,9 @@ but you can choose just to remember the old state in the options.
 
 Click (or tap with a touchscreen, [thanks to Lasse Yledahl](https://github.com/Rmano/gse-touchpad-onoff/pull/3)) on the icon to change from Touchpad On to Off.
 
-Each click toggle the status.
+Each primary click toggle the status.
+
+A secondary (right) click is a shortcut to open the preferences window.
 
 ### Options
 
@@ -28,9 +30,16 @@ Each click toggle the status.
 ### I'm stuck!
 
 If you are stuck without mouse or touchpad, open a terminal window
-or the command prompt of gnome-shell (with Alt-F2) and issue
+or the command prompt of GNOME shell (with Alt-F2) and issue
 
-    dconf write /org/gnome/desktop/peripherals/touchpad/send-events true
+    gsettings set org.gnome.desktop.peripherals.touchpad send-events enabled
 
 ...and you'll have your touchpad back.
 
+### Notice for versions from 10 upward (GNOME Shell 50 and up)
+
+The versions from 10 upward are **only** for GNOME Shell v50 or higher.
+
+* There has been a complete rewrite to follow the [deprecations of interfaces](https://gjs.guide/extensions/upgrading/gnome-shell-51.html#clutter-controllers) that happened there and to use the [new button and connectors interfaces](https://gjs.guide/extensions/upgrading/gnome-shell-51.html#clutter-controllers).
+
+* Added support for GNOME's [automatic touchpad disabling when an external mouse is connected](https://release.gnome.org/51/#settings-improvements). In automatic mode, the extension displays a dedicated dimmed icon and leaves touchpad control to GNOME. A primary click explains why no change is made, while a secondary click opens the extension preferences. The underlying setting exists in GNOME 50 and is exposed in Mouse & Touchpad Settings starting with GNOME 51.
