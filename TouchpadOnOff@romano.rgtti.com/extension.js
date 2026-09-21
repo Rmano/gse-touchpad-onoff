@@ -33,22 +33,18 @@ export default class TouchpadOnOff extends Extension {
         // Instead of using raw events, just use one "controller"
         // to handle both pointer clicks and touchscreen taps.
         // https://gjs.guide/extensions/upgrading/gnome-shell-51.html#clutter-controllers
-        // The change was suggested in https://gjs.guide/extensions/upgrading/gnome-shell-51.html#clutter-controllers
-        this._clickGesture = new Clutter.ClickGesture({
+        const clickGesture = new Clutter.ClickGesture({
             required_button: Clutter.BUTTON_PRIMARY,
         });
-        // Restrict the active click to the primary button
-        this._clickGestureId = this._clickGesture.connect(
-            'recognize', () => this._toggle());
-        this._indicator.add_action(this._clickGesture);
-        // Add a secondary press to open the preferences interface
-        this._prefsGesture = new Clutter.ClickGesture({
+        clickGesture.connect('recognize', () => this._toggle());
+        this._indicator.add_action(clickGesture);
+        // right click opens the openPreferences
+        const prefsGesture = new Clutter.ClickGesture({
             required_button: Clutter.BUTTON_SECONDARY,
             recognize_on_press: true,
         });
-        this._prefsGestureId = this._prefsGesture.connect(
-            'recognize', () => this.openPreferences());
-        this._indicator.add_action(this._prefsGesture);
+        prefsGesture.connect('recognize', () => this.openPreferences());
+        this._indicator.add_action(prefsGesture);
         // Connect events
         this._sendEventsId = this._touchpadSettings.connect(
             'changed::send-events', () => this._syncIcon());
@@ -73,17 +69,16 @@ export default class TouchpadOnOff extends Extension {
     disable() {
         this._touchpadSettings.disconnect(this._sendEventsId);
         this._settings.disconnect(this._colorIconsId);
-        this._clickGesture.disconnect(this._clickGestureId);
-        this._indicator.remove_action(this._clickGesture);
-        this._prefsGesture.disconnect(this._prefsGestureId);
-        this._indicator.remove_action(this._prefsGesture);
+        // Destroying the actor also releases its child and its actions.
+        // Signal handlers belonging to the gestures disappear with them.
+        // Destroy the icon is redundant but it keeps shexli happy.
+        this._icon.destroy();
         this._indicator.destroy();
+
+        this._sendEventId = null;
+        this._colorIconsId = null;
         this._indicator = null;
         this._icon = null;
-        this._clickGesture = null;
-        this._clickGestureId = null;
-        this._prefsGesture = null;
-        this._prefsGestureId = null;
         this._touchpadSettings = null;
         this._settings = null;
     }
