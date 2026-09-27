@@ -1,6 +1,49 @@
-<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-<mask id="path-1-inside-1_604_63" fill="white">
-<path fill-rule="evenodd" clip-rule="evenodd" d="M2 4C2 2.89543 2.89543 2 4 2H7V6H2V4ZM14 6H9V2H12C13.1046 2 14 2.89543 14 4V6ZM2 12V8H14V12C14 13.1046 13.1046 14 12 14H4C2.89543 14 2 13.1046 2 12Z"/>
-</mask>
-<path d="M7 2H8V1H7V2ZM7 6V7H8V6H7ZM2 6H1V7H2V6ZM9 6H8V7H9V6ZM14 6V7H15V6H14ZM9 2V1H8V2H9ZM2 8V7H1V8H2ZM14 8H15V7H14V8ZM4 1C2.34315 1 1 2.34315 1 4H3C3 3.44772 3.44772 3 4 3V1ZM7 1H4V3H7V1ZM8 6V2H6V6H8ZM2 7H7V5H2V7ZM1 4V6H3V4H1ZM9 7H14V5H9V7ZM8 2V6H10V2H8ZM12 1H9V3H12V1ZM15 4C15 2.34315 13.6569 1 12 1V3C12.5523 3 13 3.44772 13 4H15ZM15 6V4H13V6H15ZM1 8V12H3V8H1ZM14 7H2V9H14V7ZM15 12V8H13V12H15ZM12 15C13.6569 15 15 13.6569 15 12H13C13 12.5523 12.5523 13 12 13V15ZM4 15H12V13H4V15ZM1 12C1 13.6569 2.34315 15 4 15V13C3.44772 13 3 12.5523 3 12H1Z" fill="white" mask="url(#path-1-inside-1_604_63)"/>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="16"
+   height="16"
+   viewBox="0 0 16 16"
+   fill="none"
+   version="1.1"
+   id="svg2"
+   sodipodi:docname="touchpadoff.svg"
+   inkscape:version="1.4.4 (dcaf3e7d9e, 2026-05-05)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     id="namedview2"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="true"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="72.8125"
+     inkscape:cx="7.993133"
+     inkscape:cy="8"
+     inkscape:window-width="2560"
+     inkscape:window-height="1374"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg2" />
+  <mask
+     id="path-1-inside-1_604_63"
+     fill="white">
+    <path
+       fill-rule="evenodd"
+       clip-rule="evenodd"
+       d="M2 4C2 2.89543 2.89543 2 4 2H7V6H2V4ZM14 6H9V2H12C13.1046 2 14 2.89543 14 4V6ZM2 12V8H14V12C14 13.1046 13.1046 14 12 14H4C2.89543 14 2 13.1046 2 12Z"
+       id="path1" />
+  </mask>
+  <path
+     d="M7 2H8V1H7V2ZM7 6V7H8V6H7ZM2 6H1V7H2V6ZM9 6H8V7H9V6ZM14 6V7H15V6H14ZM9 2V1H8V2H9ZM2 8V7H1V8H2ZM14 8H15V7H14V8ZM4 1C2.34315 1 1 2.34315 1 4H3C3 3.44772 3.44772 3 4 3V1ZM7 1H4V3H7V1ZM8 6V2H6V6H8ZM2 7H7V5H2V7ZM1 4V6H3V4H1ZM9 7H14V5H9V7ZM8 2V6H10V2H8ZM12 1H9V3H12V1ZM15 4C15 2.34315 13.6569 1 12 1V3C12.5523 3 13 3.44772 13 4H15ZM15 6V4H13V6H15ZM1 8V12H3V8H1ZM14 7H2V9H14V7ZM15 12V8H13V12H15ZM12 15C13.6569 15 15 13.6569 15 12H13C13 12.5523 12.5523 13 12 13V15ZM4 15H12V13H4V15ZM1 12C1 13.6569 2.34315 15 4 15V13C3.44772 13 3 12.5523 3 12H1Z"
+     fill="white"
+     mask="url(#path-1-inside-1_604_63)"
+     id="path2" />
 </svg>

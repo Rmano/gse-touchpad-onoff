@@ -11,9 +11,9 @@
         </key>
         <key name="enable-on-login" type="b">
                 <default>true</default>
-                <summary>Enable the touchpad at login</summary>
-                <description>If you set this to on, the touchpad will be enabled
-                        at each login. Otherwise, the last status is remembered.
+                <summary>Recover from Off at login</summary>
+                <description>If you set this to on, a hard-disabled touchpad is
+                        enabled at login. Automatic mode is left untouched.
                         Switching this to false can be dangerous if your only
                         pointing device is the touchpad!
                 </description>
