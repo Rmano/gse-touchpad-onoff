@@ -133,6 +133,6 @@ export default class TouchpadOnOff extends Extension {
         this._indicator.accessible_name = `Touchpad: ${label}`;
 
         const automatic = mode === MODE_AUTO;
-        this._indicator.opacity = automatic ? 160 : 255;
+        this._indicator.opacity = automatic ? 200 : 255;
     }
 }
