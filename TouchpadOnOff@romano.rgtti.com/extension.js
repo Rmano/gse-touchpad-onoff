@@ -25,26 +25,29 @@ export default class TouchpadOnOff extends Extension {
         });
         this._settings = this.getSettings();
 
-        // let use just one icon, we will change the content in _syncIcon()
+        // The last true is to NOT create a menu associated with the button
         this._indicator = new PanelMenu.Button(0.0, this.metadata.name, true);
+        // let use just one icon, we will change the content in _syncIcon()
         this._icon = new St.Icon({style_class: 'system-status-icon'});
         this._indicator.add_child(this._icon);
 
-        // Instead of using raw events, just use one "controller"
-        // to handle both pointer clicks and touchscreen taps.
+        // Direct actor event signals are deprecated in GNOME Shell 51.
         // https://gjs.guide/extensions/upgrading/gnome-shell-51.html#clutter-controllers
+        // ClickGesture also gives us one controller for pointer clicks and
+        // touchscreen taps. Recognition happens on release, allowing a
+        // pointer/touch sequence to be cancelled before it toggles the mode.
+        // This is an enhacement with respect the older versions, which did
+        // not react to touchscreen taps. Reserve the secondary button for future
+        // enhancement, like firing a menu.
+        // Notice that PanelMenu.Button *does* define an internal ClickGesture,
+        // but it's not enabled if the menu is not created:
+        // https://gitlab.gnome.org/GNOME/gnome-shell/-/blob/main/js/ui/panelMenu.js#L110
+        // so I can safely define my own with my parameters
         const clickGesture = new Clutter.ClickGesture({
             required_button: Clutter.BUTTON_PRIMARY,
         });
         clickGesture.connect('recognize', () => this._toggle());
         this._indicator.add_action(clickGesture);
-        // right click opens the openPreferences
-        const prefsGesture = new Clutter.ClickGesture({
-            required_button: Clutter.BUTTON_SECONDARY,
-            recognize_on_press: true,
-        });
-        prefsGesture.connect('recognize', () => this.openPreferences());
-        this._indicator.add_action(prefsGesture);
         // Connect events
         this._sendEventsId = this._touchpadSettings.connect(
             'changed::send-events', () => this._syncIcon());
