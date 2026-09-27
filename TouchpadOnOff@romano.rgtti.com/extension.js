@@ -78,7 +78,7 @@ export default class TouchpadOnOff extends Extension {
         this._icon.destroy();
         this._indicator.destroy();
 
-        this._sendEventId = null;
+        this._sendEventsId = null;
         this._colorIconsId = null;
         this._indicator = null;
         this._icon = null;
