@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   id="svg7384"
+   sodipodi:docname="touchpadauto-color.svg"
+   version="1.1"
+   inkscape:version="1.4.4 (dcaf3e7d9e, 2026-05-05)"
+   height="16"
+   width="15.999999"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <metadata
+     id="metadata90">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>Gnome Symbolic Icon Theme</dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     inkscape:cy="4.529903"
+     pagecolor="#ffffff"
+     borderopacity="1"
+     showborder="false"
+     inkscape:bbox-paths="false"
+     guidetolerance="10"
+     inkscape:window-width="1670"
+     showguides="true"
+     inkscape:snap-bbox="true"
+     inkscape:pageshadow="2"
+     inkscape:guide-bbox="true"
+     inkscape:snap-nodes="true"
+     bordercolor="#666666"
+     objecttolerance="10"
+     id="namedview88"
+     showgrid="false"
+     inkscape:window-maximized="0"
+     inkscape:window-x="26"
+     inkscape:snap-global="true"
+     inkscape:window-y="23"
+     gridtolerance="10"
+     inkscape:window-height="1190"
+     inkscape:snap-to-guides="true"
+     inkscape:current-layer="g4934"
+     inkscape:zoom="22.627416"
+     inkscape:cx="7.8223691"
+     inkscape:snap-grids="true"
+     inkscape:pageopacity="1"
+     inkscape:bbox-nodes="false"
+     inkscape:showpageshadow="2"
+     inkscape:pagecheckerboard="true"
+     inkscape:deskcolor="#d1d1d1">
+    <inkscape:grid
+       spacingx="1px"
+       spacingy="1px"
+       id="grid4866"
+       empspacing="2"
+       enabled="true"
+       type="xygrid"
+       snapvisiblegridlinesonly="true"
+       visible="false"
+       originx="0"
+       originy="0"
+       units="px" />
+  </sodipodi:namedview>
+  <title
+     id="title9167">Gnome Symbolic Icon Theme</title>
+  <defs
+     id="defs7386" />
+  <g
+     inkscape:label="status"
+     transform="translate(-222,-381)"
+     inkscape:groupmode="layer"
+     id="layer9"
+     style="display:inline" />
+  <g
+     inkscape:label="devices"
+     transform="translate(-222,-381)"
+     inkscape:groupmode="layer"
+     id="layer10" />
+  <g
+     inkscape:label="apps"
+     transform="translate(-222,-381)"
+     inkscape:groupmode="layer"
+     id="layer11">
+    <g
+       transform="matrix(1.1402701,0,0,1.1389577,81.766824,-74.564061)"
+       id="g4934">
+      <rect
+         style="fill:#666666;stroke-width:1.0144"
+         id="rect1"
+         width="4.9091997"
+         height="1.8652385"
+         x="124.72409"
+         y="400.70328" />
+      <rect
+         style="fill:#666666;stroke-width:0.991264"
+         id="rect1-3"
+         width="4.6878576"
+         height="1.8652385"
+         x="130.35905"
+         y="400.73557" />
+      <rect
+         style="fill:#666666;stroke-width:0.87749"
+         id="rect2"
+         width="0.18470436"
+         height="0.36953124"
+         x="133.64894"
+         y="401.41989" />
+      <path
+         style="fill:none;stroke-width:0.87749032;stroke-dasharray:none;stroke:#fefefe;stroke-opacity:1"
+         d="m 123.99527,400.95487 11.98943,0.005 0.0584,12.03872 -12.21471,0.0379 z"
+         id="path1639" />
+      <path
+         style="fill:none;stroke:#fefefe;stroke-width:0.43874516;stroke-dasharray:none;stroke-opacity:1"
+         d="m 123.97801,403.26331 4.6391,-0.009 -0.60709,-2.3145"
+         id="path3201"
+         sodipodi:nodetypes="ccc" />
+      <path
+         style="fill:none;stroke:#fefefe;stroke-width:0.43874516;stroke-dasharray:none;stroke-opacity:1"
+         d="m 136.12027,403.22709 -4.70097,0.0199 0.87895,-2.34264"
+         id="path3331"
+         sodipodi:nodetypes="ccc" />
+      <path
+         style="fill:none;stroke:#fefefe;stroke-width:0.43874516;stroke-dasharray:none;stroke-opacity:1"
+         d="m 128.31826,403.19828 c 3.34466,-0.0384 3.34466,-0.0384 3.34466,-0.0384"
+         id="path3333" />
+      <path
+         fill="none"
+         stroke="#3584e4"
+         stroke-linecap="round"
+         stroke-linejoin="round"
+         d="m 126.54077,407.13293 a 3.4314346,3.5184548 0 0 1 5.97734,-1.58899 l 0.66414,0.908 m 0,-2.04298 v 2.04298 h -1.99245 m 1.99245,2.04297 a 3.4314346,3.5184548 0 0 1 -5.97734,1.58898 l -0.66414,-0.90799 m 0,2.04298 v -2.04298 h 1.99245"
+         id="path2"
+         style="stroke-width:1.6813;stroke-dasharray:none" />
+    </g>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none"
+       x="225.62392"
+       y="392.13864"
+       id="text2994"><tspan
+         sodipodi:role="line"
+         id="tspan2996"
+         x="225.62392"
+         y="392.13864"
+         style="font-size:12px;line-height:1.25;font-family:sans-serif" /><tspan
+         sodipodi:role="line"
+         x="225.62392"
+         y="407.13864"
+         id="tspan2998"
+         style="font-size:12px;line-height:1.25;font-family:sans-serif"> </tspan></text>
+  </g>
+  <g
+     inkscape:label="actions"
+     transform="translate(-222,-381)"
+     inkscape:groupmode="layer"
+     id="layer12" />
+  <g
+     inkscape:label="places"
+     transform="translate(-222,-381)"
+     inkscape:groupmode="layer"
+     id="layer13" />
+  <g
+     inkscape:label="mimetypes"
+     transform="translate(-222,-381)"
+     inkscape:groupmode="layer"
+     id="layer14" />
+  <g
+     inkscape:label="emblems"
+     transform="translate(-222,-381)"
+     inkscape:groupmode="layer"
+     id="layer15" />
+</svg>
